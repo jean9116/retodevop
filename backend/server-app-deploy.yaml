@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-server-app-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-server-app
+  template:
+    metadata:
+      labels:
+        app: todo-server-app
+    spec:
+      containers:
+      - image: node:13.3.0-alpine3.10
+        name: container1
+        ports:
+        - containerPort: 80
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: server-side-configs
+        - secretRef:
+            name: server-side-secrets
